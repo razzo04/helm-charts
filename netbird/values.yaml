@@ -28,7 +28,15 @@ idp:
 
   ## @param idp.managerType none, keycloak, or auth0
   ##
-  managerType: none
+  managerType: authentik
+  extra:
+    username: netbird
+    password:
+      name: netbird-service-account
+      key: password
+  authIssuer: https://authentik.base.domain/application/o/netbird/
+  tokenEndpoint: https://authentik.base.domain/application/o/token/
+  grantType: client_credentials
   # clientID:
   # secretKeyRef:
   #   name: idp-credentials

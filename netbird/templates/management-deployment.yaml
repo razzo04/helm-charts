@@ -123,8 +123,23 @@ spec:
             {{- if eq .Values.idp.managerType "keycloak" }}
             - name: NETBIRD_IDP_KEYCLOAK_ADMIN_ENDPOINT
               value: "{{ .Values.idp.adminEndpoint }}"
-            - name: NETBIRD_IDP_KEYCLOAK_TOKEN_ENDPOINT
+            - name: NETBIRD_IDP_MGMT_TOKEN_ENDPOINT
               value: "{{ .Values.idp.tokenEndpoint }}"
+            {{- end }}
+            {{- if eq .Values.idp.managerType "authentik" }}
+            - name: NETBIRD_IDP_MGMT_EXTRA_USERNAME
+              value: "{{ .Values.idp.extra.username}}"
+            - name: NETBIRD_IDP_MGMT_TOKEN_ENDPOINT
+              value: "{{ .Values.idp.tokenEndpoint }}"
+            - name: NETBIRD_IDP_AUTH_ISSUER
+              value: "{{ .Values.idp.authIssuer }}"
+            {{- with .Values.idp.extra.password }}
+            - name: NETBIRD_IDP_MGMT_EXTRA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .name }}
+                  key: {{ .key }}
+            {{- end }}
             {{- end }}
 
           volumeMounts:
